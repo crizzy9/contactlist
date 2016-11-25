@@ -1,0 +1,10 @@
+<div>
+  <h2>LISTS</h2>
+  <ul>
+    <li *ngFor="let list of lists | async">
+      <a [routerLink]="['/list',list._id]">{{list.name}}</a>
+    </li>
+  </ul>
+  <br />
+  <lists-form></lists-form>
+</div>

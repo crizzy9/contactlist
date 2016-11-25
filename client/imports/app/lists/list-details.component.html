@@ -1,0 +1,26 @@
+<div *ngIf="!editing">
+  <header *ngIf="list">
+    <h2>{{list.name}}</h2>
+    <p>{{list.description}}</p>
+    <br />
+      <h4>Contacts</h4>
+      <contacts-show [listId]="listId" [listname]="list.name"></contacts-show>
+    <br />
+    <button (click)="removeList()">Remove</button>
+    <button (click)="editList()">Edit</button>
+    <button routerLink="/">Back</button>
+    <!-- <button [routerLink]="['/contacts',list._id]">Show Contacts</button> -->
+  </header>
+</div>
+<div *ngIf="editing">
+  <form *ngIf="list" (submit)="saveList()">
+  <label>Name</label>
+  <input type="text" [(ngModel)]="list.name" name="name" />
+
+  <label>Description</label>
+  <input type="text" [(ngModel)]="list.description" name="description" />
+
+  <button type="submit">Save</button>
+  <button routerLink="/">Cancel</button>
+</form>
+</div>
