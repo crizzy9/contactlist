@@ -1,4 +1,7 @@
 {
+  "atom": {
+    "rewriteTsconfig": true
+  },
   "compilerOptions": {
     "target": "es5",
     "lib": [
@@ -14,10 +17,30 @@
   "exclude": [
     "node_modules"
   ],
-  "filesGlob":[
+  "filesGlob": [
     "**/*.ts"
   ],
   "files": [
+    "both/collections/contacts.collection.ts",
+    "both/collections/lists.collection.ts",
+    "both/models/collection-object.model.ts",
+    "both/models/contact.model.ts",
+    "both/models/list.model.ts",
+    "client/imports/app/app.component.ts",
+    "client/imports/app/app.module.ts",
+    "client/imports/app/app.routes.ts",
+    "client/imports/app/contacts/contacts-form.component.ts",
+    "client/imports/app/contacts/contacts-show.component.ts",
+    "client/imports/app/contacts/index.ts",
+    "client/imports/app/lists/index.ts",
+    "client/imports/app/lists/list-details.component.ts",
+    "client/imports/app/lists/lists-form.component.ts",
+    "client/imports/app/lists/lists-show.component.ts",
+    "client/main.ts",
+    "server/imports/fixtures/lists.ts",
+    "server/imports/publications/contacts.ts",
+    "server/imports/publications/lists.ts",
+    "server/main.ts",
     "typings.d.ts"
   ],
   "compileOnSave": false,

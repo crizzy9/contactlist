@@ -1,9 +1,21 @@
 <div>
   <table>
     <tr *ngFor="let contact of contacts | async">
-      <td>{{contact.firstname}}</td>
-      <td>{{contact.lastname}}</td>
-      <td>{{contact.email}}</td>
+      <div *ngIf="!editing || contact._id!=contactId">
+        <td>{{contact.firstname}}</td>
+        <td>{{contact.lastname}}</td>
+        <td>{{contact.email}}</td>
+        <td><button (click)="editContact(contact)">edit</button></td>
+        <td><button (click)="removeContact(contact)">X</button></td>
+      </div>
+      <div *ngIf="editing && contact._id==contactId">
+        <form (submit)="saveContact()">
+          <input type="text" [(ngModel)]="contact.firstname" name="firstname" />
+          <input type="text" [(ngModel)]="contact.lastname" name="lastname" />
+          <input type="text" [(ngModel)]="contact.email" name="email" />
+          <button type="submit">save</button>
+        </form>
+      </div>
     </tr>
   </table>
   <br />
