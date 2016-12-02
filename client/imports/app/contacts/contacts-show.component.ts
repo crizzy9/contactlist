@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, NgZone } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { MeteorObservable } from 'meteor-rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -26,22 +26,24 @@ export class ContactsShowComponent implements OnInit {
   @Input() listname: string;
   editing: boolean = false;
   contact: Contact;
-  contact2: Contact;
   contacts: Observable<Contact[]>;
-  contactsSub: Subscription;
+  // contacts: Contact[];
+  // contactsSub: Subscription;
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private zone: NgZone
   ){}
 
   ngOnInit() {
 
-    this.contactsSub = MeteorObservable.subscribe('contacts', this.listId).subscribe(() => {
+    this.showContacts();
+    /*this.contactsSub = MeteorObservable.subscribe('contacts', this.listId).subscribe(() => {
       console.log(Contacts.find({}).fetch());
       this.contacts = Contacts.find({list_id: { $eq: this.listId }}).zone();
       //this.contacts = Contacts.find({}).zone();
-    });
+    });*/
 
     // this.contacts = Contacts.find({list_id: {
     //   $eq: this.listId
@@ -57,8 +59,27 @@ export class ContactsShowComponent implements OnInit {
       });*/
   }
 
+  showContacts() {
+    Meteor.call("listContacts", this.listId, (err, resp) => {
+      console.log("in list contacts call");
+      console.log(resp);
+      this.zone.run(() => { this.contacts = resp; });
+    });
+  }
+
+  onAddContact(changed: boolean) {
+      console.log("inside on add contact", changed);
+      if(changed == true){
+        this.showContacts();
+      }
+  }
+
   removeContact(contact: Contact): void {
-    Contacts.update({_id: contact._id},{$pull: {list_id: this.listId}});
+    Meteor.call("contactRemove", contact._id, this.listId, (err, resp) => {
+      console.log("in contact remove call");
+    });
+    this.showContacts();
+    //Contacts.update({_id: contact._id},{$pull: {list_id: this.listId}});
   }
 
   editContact(contact: Contact): void {
@@ -68,7 +89,7 @@ export class ContactsShowComponent implements OnInit {
   }
 
   saveContact(): void {
-    this.contact2 = Contacts.findOne({firstname: this.contact.firstname, lastname: this.contact.lastname, email: this.contact.email});
+    /*this.contact2 = Contacts.findOne({firstname: this.contact.firstname, lastname: this.contact.lastname, email: this.contact.email});
     //==null not working so use return;
     if(this.contact2 == null){
       Contacts.update(this.contactId, {
@@ -81,11 +102,19 @@ export class ContactsShowComponent implements OnInit {
     }
     else{
       console.log("contact already exists")
-    }
-    this.editing = false;
+    }*/
+
+    Meteor.call("contactEdit", this.contact, (err, resp) => {
+      console.log("in contact edit call");
+      if(resp == false){
+        alert('Contact already exists, use different values');
+      }
+      this.editing = false;
+      this.showContacts();
+    });
   }
 
-  ngDestroy() {
+  /*ngDestroy() {
     this.contactsSub.unsubscribe();
-  }
+  }*/
 }

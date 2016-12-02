@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -22,7 +22,8 @@ export class ListDetailsComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private zone: NgZone
   ){}
 
   ngOnInit() {
@@ -30,12 +31,25 @@ export class ListDetailsComponent implements OnInit, OnDestroy {
       .map(params => params['listId'])
       .subscribe(listId => {
         this.listId = listId;
-        this.list = Lists.findOne(this.listId);
+        Meteor.call("listDetails", this.listId, (err, resp) => {
+          console.log("inside list details call");
+          this.zone.run(() =>{this.list = resp});
+        });
+        //this.list = Lists.findOne(this.listId);
       });
+      console.log(this.list);
+      // inside call it displays the list but here outside it doesnt why???
   }
 
   removeList(): void {
-    Lists.remove(this.list._id);
+    //console.log("remove ",Lists.find({}).fetch());
+    //Lists.remove(this.list._id);
+    //call for remove contacts from contacts-show to remove the contacts belonging to this list
+
+    Meteor.call("listRemove", this.list._id, (err, resp) => {
+      console.log("in list remove call");
+    });
+
     this.router.navigateByUrl('/');
   }
 
@@ -44,18 +58,19 @@ export class ListDetailsComponent implements OnInit, OnDestroy {
   }
 
   saveList(): void {
-    Lists.update(this.list._id, {
+    this.editing = false;
+    Meteor.call("listUpdate", this.list._id, this.list.name, this.list.description, (err, resp) => {
+      console.log("inside list update call");
+      // you can make editing false here but then youll have to zone it!
+    });
+    /*Lists.update(this.list._id, {
       $set: {
         name: this.list.name,
         description: this.list.description
       }
-    });
-    this.router.navigateByUrl('/');
+    });*/
+    //this.router.navigateByUrl('/');
   }
-
-  // cancelEdit() {
-  //   this.editing = false;
-  // }
 
   ngOnDestroy() {
     this.paramsSub.unsubscribe();

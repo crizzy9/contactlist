@@ -1,10 +1,37 @@
 <div>
   <h2>LISTS</h2>
   <ul>
-    <li *ngFor="let list of lists | async">
+    <li *ngFor="let list of lists">
       <a [routerLink]="['/list',list._id]">{{list.name}}</a>
     </li>
   </ul>
   <br />
-  <lists-form></lists-form>
+  <lists-form (onAddList)="onAddList($event)"></lists-form>
+  <br />
+   <input type="text" #searchtext placeholder="Search by Firstname" />
+  <button type="button" (click)="search(searchtext.value)">Search</button>
+  <br />
+    <div *ngIf="showres">
+      <div *ngFor="let a of arr">
+        <table>
+          <tr>
+            <td>{{a.contact.firstname}}</td>
+            <td>{{a.contact.lastname}}</td>
+            <td>{{a.contact.email}}</td>
+          </tr>
+        </table>
+        <ul>
+          <li *ngFor="let names of a.listnames">
+            {{names.name}}
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- use conditional and use show temp button to collapse or expand the template on condition-->
+    <br />
+    <button *ngIf="!showtem" (click)="showTemp(true)">Show Template</button>
+    <div *ngIf="showtem">
+      <button (click)="showTemp(false)">Collapse Template</button>
+      <email-form></email-form>
+    </div>
 </div>

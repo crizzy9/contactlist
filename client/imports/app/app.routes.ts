@@ -6,6 +6,6 @@ import { ListDetailsComponent } from './lists/list-details.component';
 
 export const routes: Route[] = [
   { path: '', component: ListsShowComponent },
-  { path: 'list/:listId', component: ListDetailsComponent },
+  { path: 'list/:listId', component: ListDetailsComponent }
   // { path: 'contacts/:listId', component: ContactsShowComponent}
 ];

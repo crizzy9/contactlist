@@ -1,0 +1,29 @@
+<!-- if you use [formGroup]="emailForm"  then use this with ng model [ngModelOptions]="{standalone: true}"-->
+<form (ngSubmit)="saveTemp()">
+  <br />
+  <tr>
+    <td>
+      <label>Subject</label>
+      <input type="text" [(ngModel)]="email.subject" name="subject" />
+    </td>
+    <td>
+      <div>
+        <select #templates (change)="changeTemp(templates.value)">
+          <option *ngFor="let e of emails" value="{{e.tempname}}">{{e.tempname}}</option>
+        </select>
+      </div>
+    </td>
+    <td>
+      <button *ngIf="!newt" (click)="newTemp(true)">New Template</button>
+      <div *ngIf="newt">
+        <input type="text" [(ngModel)]="tempname" name="tempname" />
+        <button (click)="newTemp(false)">Save</button>
+      </div>
+    </td>
+  </tr>
+  <br /><br />
+  <label>Text</label>
+  <textarea rows="5" cols="40" [(ngModel)]="email.text" name="text" ></textarea>
+  <br />
+  <button>Save Template</button>
+</form>

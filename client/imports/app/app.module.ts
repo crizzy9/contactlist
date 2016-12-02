@@ -8,7 +8,6 @@ import { routes } from './app.routes';
 import { LISTS_DECLARATIONS } from './lists';
 import { CONTACTS_DECLARATIONS } from './contacts';
 
-
 @NgModule({
   imports: [
     BrowserModule,

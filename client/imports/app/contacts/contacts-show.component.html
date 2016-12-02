@@ -1,6 +1,6 @@
 <div>
   <table>
-    <tr *ngFor="let contact of contacts | async">
+    <tr *ngFor="let contact of contacts">
       <div *ngIf="!editing || contact._id!=contactId">
         <td>{{contact.firstname}}</td>
         <td>{{contact.lastname}}</td>
@@ -19,5 +19,5 @@
     </tr>
   </table>
   <br />
-  <contacts-form [listId]="listId"></contacts-form>
+  <contacts-form [listId]="listId" (onAddContact)="onAddContact($event)"></contacts-form>
 </div>

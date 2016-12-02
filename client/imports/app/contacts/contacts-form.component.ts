@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { Contacts } from '../../../../both/collections/contacts.collection';
@@ -14,6 +14,7 @@ import template from './contacts-form.component.html';
 export class ContactsFormComponent implements OnInit {
   addForm: FormGroup;
   @Input() listId: string;
+  @Output() onAddContact = new EventEmitter<boolean>();
   contact: Contact;
 
   constructor(
@@ -31,9 +32,7 @@ export class ContactsFormComponent implements OnInit {
 
   addContact(): void {
     if(this.addForm.valid){
-      //console.log(this.addForm.value);
-      this.contact = Contacts.findOne({ firstname:this.addForm.value.firstname, lastname:this.addForm.value.lastname, email:this.addForm.value.email })
-      //console.log(this.contact);
+      /*this.contact = Contacts.findOne({ firstname:this.addForm.value.firstname, lastname:this.addForm.value.lastname, email:this.addForm.value.email })
       console.log(Contacts.find({}).fetch());
       //what if i make listid? as the field so it doesnt delete it from minimongo? maybe?
       if(this.contact == null){
@@ -56,7 +55,7 @@ export class ContactsFormComponent implements OnInit {
           {_id: this.contact._id},
           {$addToSet: {list_id: this.listId}}
         );
-      }
+      }*/
 
       // update using just one query but it wont work on the client side you need to use the server side or give it allow to client
       /*Contacts.update(
@@ -64,7 +63,13 @@ export class ContactsFormComponent implements OnInit {
         { $addToSet: { list_id: this.listId } },
         { upsert: true }
       );*/
+
+      Meteor.call("contactAdd", this.addForm.value, this.listId, (err, resp) => {
+        console.log("in contact add call");
+        //handle contact already exists too
+      });
       this.addForm.reset();
+      this.onAddContact.emit(true);
     }
   }
 }
