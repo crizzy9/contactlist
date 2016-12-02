@@ -26,8 +26,8 @@ export class Arr{
 })
 
 export class ListsShowComponent implements OnInit {
-  lists: Observable<List[]>;
-  // lists: List[]
+  // lists: Observable<List[]>;
+  lists: List[]
   //listsSub: Subscription;
   contacts: Contact[];
   showres: boolean = false;

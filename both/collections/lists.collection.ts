@@ -1,10 +1,10 @@
-import { MongoObservable } from 'meteor-rxjs';
+// import { MongoObservable } from 'meteor-rxjs';
 import { Meteor } from 'meteor/meteor';
 
 import { List } from '../models/list.model';
 
-export const Lists = new MongoObservable.Collection<List>('lists');
-// export const Lists = new Mongo.Collection<List>('lists');
+// export const Lists = new MongoObservable.Collection<List>('lists');
+export const Lists = new Mongo.Collection<List>('lists');
 
 function opAllow() {
   return true;

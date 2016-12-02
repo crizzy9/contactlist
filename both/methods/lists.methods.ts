@@ -8,9 +8,9 @@ import { Meteor } from 'meteor/meteor';
 Meteor.methods({
   showList: function () {
     console.log("in showlist method");
-    let lists = Lists.find({}).cursor.fetch();
-    // let lists = Lists.find({});
-    //console.log(lists);
+    // let lists = Lists.find({}).cursor.fetch();
+    let lists = Lists.find({}).fetch();
+    // console.log(lists);
     return lists;
   },
   listDetails: function(listId: string) {
@@ -53,8 +53,8 @@ Meteor.methods({
   },
   getListNames: function(listids: string[]) {
     console.log("in get listnames method");
-    return Lists.find({ _id: { $in: listids}},{ fields: {name: 1}}).cursor.fetch();
-    // return Lists.find({ _id: { $in: listids}}, { fields: {name: 1}});
+    // return Lists.find({ _id: { $in: listids}},{ fields: {name: 1}}).cursor.fetch();
+    return Lists.find({ _id: { $in: listids}}, { fields: {name: 1}}).fetch();
   }
 
 });

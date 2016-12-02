@@ -8,10 +8,10 @@ Meteor.methods({
   listContacts: function(listId: string) {
     check(listId, String);
     console.log("inside list contacts method");
-    let contacts = Contacts.find({ list_id: { $eq: listId }}).cursor.fetch();
-    // let contacts = Contacts.find({ list_id: { $eq: listId}});
+    // let contacts = Contacts.find({ list_id: { $eq: listId }}).cursor.fetch();
+    let contacts = Contacts.find({ list_id: { $eq: listId}}).fetch();
     //let contacts = Contacts.find({list_id: {$eq: listId}});
-    //console.log(contacts);
+    // console.log(contacts);
     return contacts;
   },
   contactAdd: function(value: any, listId: string) {
@@ -51,8 +51,8 @@ Meteor.methods({
   searchContacts: function(name: string) {
     check(name, String);
     console.log("in search contacts method");
-    let contacts = Contacts.find(name ? { firstname: name}: {}).cursor.fetch();
-    // let contacts = Contacts.find(name ? { firstname: name}: {});
+    // let contacts = Contacts.find(name ? { firstname: name}: {}).cursor.fetch();
+    let contacts = Contacts.find(name ? { firstname: name}: {}).fetch();
     return contacts;
   }
 });

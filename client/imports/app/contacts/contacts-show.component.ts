@@ -26,8 +26,8 @@ export class ContactsShowComponent implements OnInit {
   @Input() listname: string;
   editing: boolean = false;
   contact: Contact;
-  contacts: Observable<Contact[]>;
-  // contacts: Contact[];
+  // contacts: Observable<Contact[]>;
+  contacts: Contact[];
   // contactsSub: Subscription;
 
   constructor(

@@ -3,8 +3,8 @@ import { Email } from '../../../both/models/email.model';
 
 export function loadEmails(){
   console.log("inside load EMAILS");
-  if (Emails.find().cursor.count() === 0){
-  // if(Emails.find().count() === 0){
+  // if (Emails.find().cursor.count() === 0){
+  if(Emails.find().count() === 0){
     const emails: Email[] = [{
       tempname: 'default',
       subject: 'Default Template',

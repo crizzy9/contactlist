@@ -13,8 +13,8 @@ Meteor.methods({
   getAllTemplates: function() {
     console.log("in get all templates");
     //let temps = Emails.find({},{fields: {tempname: 1}}).cursor.fetch();
-    let temps = Emails.find({}).cursor.fetch();
-    // let temps = Emails.find({});
+    // let temps = Emails.find({}).cursor.fetch();
+    let temps = Emails.find({}).fetch();
     return temps;
   },
   newTemplate: function(tempn: string) {
